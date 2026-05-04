@@ -1,0 +1,119 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String         @id @default(uuid())
+  name          String
+  email         String         @unique 
+  password      String         
+
+  posts         Post[]
+  comments      Comment[]
+  likes         Like[]
+  notifications Notification[]
+  actedNotifications Notification[] @relation("NotificationActor")
+
+  createdAt     DateTime       @default(now())
+}
+
+model Post {
+  id          String    @id @default(uuid())
+  title       String
+  description String
+
+  vibes       Vibe[]
+  
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  
+  imageUrls        String[]     
+  imagePublicIds   String[]
+
+  latitude    Float?
+  longitude   Float?
+  address     String?
+  
+  comments    Comment[]
+  likes       Like[]
+
+  createdAt   DateTime  @default(now())
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  content   String
+  isEdited  Boolean  @default(false)
+  userId    String
+  postId    String
+
+  parentId  String?
+
+  user      User     @relation(fields: [userId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  parent    Comment? @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies   Comment[] @relation("CommentReplies")
+
+  createdAt DateTime @default(now())
+}
+
+model Like {
+  id        String   @id @default(uuid())
+  userId    String
+  postId    String
+
+  user      User     @relation(fields: [userId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, postId]) 
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  actorId   String?
+  message   String
+  type      NotificationType   
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  actor     User?    @relation("NotificationActor", fields: [actorId], references: [id])
+}
+
+enum NotificationType {
+  LIKE
+  COMMENT
+  REPLY
+}
+
+enum Vibe {
+  DATING
+  FRIENDS
+  FAMILY
+  SOLO
+  STREET_FOOD
+  BUDGET_EATS
+  PREMIUM_DINING
+  LOCAL_AUTHENTIC
+  MUSIC
+  QUIET
+  ROMANTIC
+  LATE_NIGHT
+  SIGHTSEEING
+  INSTAGRAM_WORTHY
+  NATURE
+  CITY_VIEW
+  HIDDEN_GEM
+  UNDER_100
+  STUDENT_FRIENDLY
+  QUICK_BITE
+}
