@@ -6,7 +6,7 @@ import {
   Animated,
   Dimensions,
 } from "react-native";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import PostCard from "../../src/components/post/PostCard";
 import { useInfinitePosts } from "../../src/hooks/usePosts";
 import { mapPost } from "../../src/features/post/post.mapper";
@@ -23,6 +23,7 @@ export default function Home() {
   const [appliedVibes, setAppliedVibes] = useState<string[]>([]);
 
   const router = useRouter();
+  const flatListRef = useRef<FlatList>(null);
   const translateX = useRef(new Animated.Value(width)).current;
   const lastTapRef = useRef(0);
 
@@ -34,15 +35,17 @@ export default function Home() {
     fetchNextPage,
   } = useInfinitePosts(appliedVibes);
 
-  console.log("pages:", data?.pages);
-console.log("first page:", data?.pages?.[0]);
-
   const posts = useMemo(
     () => data?.pages.flatMap((page) => page.data.map(mapPost)) ?? [],
     [data]
   );
 
-  console.log("posts:", posts);
+  const firstPostId = posts[0]?.id;
+  useEffect(() => {
+    if (firstPostId) {
+      flatListRef.current?.scrollToOffset({ offset: 0, animated: true });
+    }
+  }, [firstPostId]);
 
 
   const handlePress = (id: string) => {
@@ -82,6 +85,7 @@ console.log("first page:", data?.pages?.[0]);
         </View>
       ) : (
         <FlatList
+          ref={flatListRef}
           data={posts}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (

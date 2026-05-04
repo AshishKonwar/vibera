@@ -7,28 +7,9 @@ export const useCreatePost = () => {
   return useMutation({
     mutationFn: createPost,
 
-    onSuccess: (newPost) => {
-      queryClient.setQueriesData(
-        { queryKey: ["posts"] },
-        (old: any) => {
-          if (!old) return [newPost];
-
-          if (Array.isArray(old)) {
-            return [newPost, ...old];
-          }
-
-          if (old.posts && Array.isArray(old.posts)) {
-            return {
-              ...old,
-              posts: [newPost, ...old.posts],
-            };
-          }
-
-          return old;
-        }
-      );
-
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ["userPosts"] });
     },
 
     onError: (err) => {

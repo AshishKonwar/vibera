@@ -23,12 +23,12 @@ export const likeService = {
         },
       });
 
-       await notificationService.create(
+      notificationService.create(
         post.userId,
         "liked your post",
         "LIKE",
-        userId 
-      );
+        userId
+      ).catch((err) => console.error("Notification creation failed:", err));
 
       return like;
     } catch (error: any) {

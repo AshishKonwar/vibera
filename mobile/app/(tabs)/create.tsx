@@ -159,8 +159,9 @@ export default function CreatePostScreen() {
         });
 
         setTimeout(() => {
+          setDialog((d) => ({ ...d, visible: false }));
           router.replace("/(tabs)");
-        }, 1000);
+        }, 2000);
       },
 
       onError: (err: any) => {

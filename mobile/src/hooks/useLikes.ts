@@ -35,8 +35,8 @@ export const useToggleLike = () => {
         qc.invalidateQueries({ queryKey: ["posts"] });
         },
         
-        onError: (error) => {
-        console.log("LIKE ERROR:", error);
+        onError: (error: any) => {
+        console.log("LIKE ERROR:", error?.response?.data?.message ?? error?.message ?? error);
 }
   });
 };
