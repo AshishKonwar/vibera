@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-# vibera
-Discover local places based on vibes, powered by AI-driven experience tagging.
-=======
 # Vibera 🌍✨
 
 Discover places based on vibes, not ratings.
@@ -70,6 +66,23 @@ Each result includes:
 
 ---
 
+## 📸 Screenshots
+
+### Home Feed
+![Home](./screenshots/home.jpeg)
+
+### Explore Nearby
+![Explore](./screenshots/explore.jpeg)
+
+### Vibe Filters (AI-powered)
+![Vibes](./screenshots/vibe_filters.jpeg)
+
+### Post Details & Engagement
+![Post](./screenshots/post_details.jpeg)
+
+### Create Experience
+![Create](./screenshots/create_post.jpeg)
+
 ## 🛠 Tech Stack
 
 ### Mobile
@@ -99,4 +112,3 @@ npm run dev
 cd mobile
 npm install
 npm start
->>>>>>> ca76bf4 (Initial commit - Vibera)
