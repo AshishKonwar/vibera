@@ -24,7 +24,7 @@ export default function Index() {
         ]).start();
 
         const checkAuth = async () => {
-            const token = await AsyncStorage.getItem("token");
+            const token = await AsyncStorage.getItem("auth_token");
 
             setTimeout(() => {
                 if (token) {

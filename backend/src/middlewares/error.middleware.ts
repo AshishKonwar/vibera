@@ -1,4 +1,3 @@
-// filepath: server/src/middlewares/error.middleware.ts
 import { Request, Response, NextFunction } from 'express';
 import { logger } from '../utils/logger';
 import { HTTP_STATUS } from '../utils/constants';

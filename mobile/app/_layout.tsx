@@ -12,7 +12,8 @@ export default function RootLayout() {
         defaultOptions: {
           queries: {
             staleTime: 1000 * 60 * 5,
-            retry: 1,
+            retry: (failureCount, error: any) =>
+              error?.response?.status !== 401 && failureCount < 1,
           },
         },
       })

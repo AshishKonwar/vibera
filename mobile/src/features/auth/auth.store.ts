@@ -18,13 +18,13 @@ export const useAuthStore = create<AuthState>((set) => ({
 }));
 
 export const setToken = async (token: string) => {
-  await AsyncStorage.setItem("token", token);
+  await AsyncStorage.setItem("auth_token", token);
 };
 
 export const getToken = async () => {
-  return await AsyncStorage.getItem("token");
+  return await AsyncStorage.getItem("auth_token");
 };
 
 export const removeToken = async () => {
-  await AsyncStorage.removeItem("token");
+  await AsyncStorage.removeItem("auth_token");
 };

@@ -34,7 +34,7 @@ export default function Profile() {
   const posts = data?.data ?? [];
 
   const handleLogout = async () => {
-    await AsyncStorage.removeItem("token");
+    await AsyncStorage.removeItem("auth_token");
     await AsyncStorage.removeItem("user");
     router.replace("/(auth)/signin");
   };
